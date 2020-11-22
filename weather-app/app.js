@@ -6,3 +6,13 @@ request({ url: url, json: true }, (error, response) => {
     // console.log(response.body.current);
     console.log(`${response.body.current.weather_descriptions[0]} It is currently ${response.body.current.temperature} degrees out. It feels like ${response.body.current.feelslike} degrees out.`);
 })
+
+const geocodeURL = 'https://api.mapbox.com/geocoding/v5/mapbox.places/Los%20Angeles.json?access_token=pk.eyJ1Ijoia2Fvcml0b2thc2hpa2kiLCJhIjoiY2tocjZiMTBtMGRiNTMwbnQ5eGZqbHI3MCJ9.hzH1wpsvLnKH-_tD17Svtg&limit=1'
+// const url2 = 'https://api.mapbox.com/geocoding/v5/mapbox.places/Los%20Angeles.json?access_token=pk.eyJ1Ijoia2Fvcml0b2thc2hpa2kiLCJhIjoiY2tocjZiMTBtMGRiNTMwbnQ5eGZqbHI3MCJ9.hzH1wpsvLnKH-_tD17Svtg&limit=1'
+request({ url: geocodeURL, json: true }, (error, response) => {
+    // console.log(response.body.current);
+    const latitude = response.body.features[0].center[0]
+    const longtitude = response.body.features[0].center[0]
+
+    console.log(`lati: ${latitude} longti: ${longtitude}`);
+})
