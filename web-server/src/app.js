@@ -15,8 +15,6 @@ app.set('view engine', 'hbs')
 app.set('views', viewsPath)
 hbs.registerPartials(partialsPath)
 
-
-
 app.use(express.static(path.join(publicDirectoryPath)))
 
 app.get('', (req, res) => {
@@ -47,6 +45,14 @@ app.get('/weather', (req, res) => {
         forcast: 'Sunny',
         location: 'Tokyo'
     })
+})
+
+app.get('/help/*', (req, res)=> {
+    res.send('Help article not found')
+})
+
+app.get('*', (req, res)=>{
+    res.send('My 404 page')
 })
 
 app.listen(3000, () => {
