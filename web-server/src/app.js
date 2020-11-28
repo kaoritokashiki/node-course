@@ -1,12 +1,20 @@
 const path = require('path')
 const express = require('express')
 const { resourceUsage } = require('process')
-
+const { request } = require('express')
+const hbs = require('hbs');
 
 const app = express()
+
+
 const publicDirectoryPath = path.join(__dirname, '../public')
+const viewsPath = path.join(__dirname, '../templates/views')
+const partialsPath = path.join(__dirname, '../templates/partials')
 
 app.set('view engine', 'hbs')
+app.set('views', viewsPath)
+hbs.registerPartials(partialsPath)
+
 app.use(express.static(path.join(publicDirectoryPath)))
 
 app.get('', (req, res) => {
@@ -26,7 +34,8 @@ app.get('/about', (req, res) => {
 app.get('/help', (req, res)=>{
     res.render('help', {
         title: 'Help',
-        helpText: 'help me'
+        helpText: 'help me',
+        name: 'Andrew Mead'
     })
 })
 
@@ -35,6 +44,22 @@ app.get('/weather', (req, res) => {
     res.send({
         forcast: 'Sunny',
         location: 'Tokyo'
+    })
+})
+
+app.get('/help/*', (req, res) => {
+    res.render('404', {
+        title: '404',
+        errorMessage: 'Help article not found',
+        name: 'Andrew Mead'
+    })
+})
+
+app.get('*', (req, res)=>{
+    res.render('404', {
+        title: '404',
+        errorMessage: 'My 404 page!',
+        name: 'Andrew Mead'
     })
 })
 
