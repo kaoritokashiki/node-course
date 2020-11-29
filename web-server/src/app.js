@@ -56,12 +56,12 @@ app.get('/weather', (req, res) => {
         if (error) {
             return res.send({ error });
         }
-        forecast(latitude, longitude, (error, forcastData) => {
+        forecast(latitude, longitude, (error, forecastData) => {
             if(error){
                 return res.send({ error });
             }
             res.send({
-                forcast: forcastData,
+                forecast: forecastData,
                 location,
                 address
             })
@@ -77,7 +77,7 @@ app.get('/weather', (req, res) => {
 //     }
 
 //     res.send({
-//         forcast: 'It is snowing',
+//         forecast: 'It is snowing',
 //         location: 'Philadelphia',
 //         address: req.query.address
 //     })
