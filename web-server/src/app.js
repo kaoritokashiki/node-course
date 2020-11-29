@@ -26,7 +26,7 @@ app.get('', (req, res) => {
 
 app.get('/about', (req, res) => {
     res.render('about', {
-        title: 'About',
+        title: 'About me',
         name: 'Andrew Mead'
     })
 })
@@ -34,16 +34,37 @@ app.get('/about', (req, res) => {
 app.get('/help', (req, res)=>{
     res.render('help', {
         title: 'Help',
-        helpText: 'help me',
+        helpText: 'This is some helpful text.',
         name: 'Andrew Mead'
     })
 })
 
 
 app.get('/weather', (req, res) => {
+    if(!req.query.address){
+        return res.send({
+            error: 'You must provide an address!'
+        })
+    }
+
     res.send({
-        forcast: 'Sunny',
-        location: 'Tokyo'
+        forcast: 'It is snowing',
+        location: 'Philadelphia',
+        address: req.query.address
+    })
+})
+
+
+
+app.get('/products', (req, res)=>{
+    if(!req.query.search){
+        return res.send({
+            error: 'You must provide a search term'
+        })
+    }
+    console.log(req.query.search);
+    res.send({
+        products: []
     })
 })
 
