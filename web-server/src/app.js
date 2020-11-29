@@ -1,10 +1,13 @@
 const path = require('path')
 const express = require('express')
-const { resourceUsage } = require('process')
-const { request } = require('express')
+// const { resourceUsage } = require('process')
+// const { request } = require('express')
 const hbs = require('hbs');
+const geocode = require('./utils/geocode')
+const forecast = require('./utils/forecast')
 
 const app = express()
+
 
 
 const publicDirectoryPath = path.join(__dirname, '../public')
@@ -26,7 +29,7 @@ app.get('', (req, res) => {
 
 app.get('/about', (req, res) => {
     res.render('about', {
-        title: 'About',
+        title: 'About me',
         name: 'Andrew Mead'
     })
 })
@@ -34,16 +37,63 @@ app.get('/about', (req, res) => {
 app.get('/help', (req, res)=>{
     res.render('help', {
         title: 'Help',
-        helpText: 'help me',
+        helpText: 'This is some helpful text.',
         name: 'Andrew Mead'
     })
 })
 
-
+//ここ
 app.get('/weather', (req, res) => {
+    const address = req.query.address;
+
+    if(!address){
+        return res.send({
+            error: 'You must provide an address!'
+        })
+    }
+
+    geocode(address, ( error, { latitude, longitude, location} = {}) => {
+        if (error) {
+            return res.send({ error });
+        }
+        forecast(latitude, longitude, (error, forcastData) => {
+            if(error){
+                return res.send({ error });
+            }
+            res.send({
+                forcast: forcastData,
+                location,
+                address
+            })
+        })
+    })
+})
+
+// app.get('/weather', (req, res) => {
+//     if(!req.query.address){
+//         return res.send({
+//             error: 'You must provide an address!'
+//         })
+//     }
+
+//     res.send({
+//         forcast: 'It is snowing',
+//         location: 'Philadelphia',
+//         address: req.query.address
+//     })
+// })
+
+
+
+app.get('/products', (req, res)=>{
+    if(!req.query.search){
+        return res.send({
+            error: 'You must provide a search term'
+        })
+    }
+    console.log(req.query.search);
     res.send({
-        forcast: 'Sunny',
-        location: 'Tokyo'
+        products: []
     })
 })
 
