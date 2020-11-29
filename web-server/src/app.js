@@ -42,7 +42,6 @@ app.get('/help', (req, res)=>{
     })
 })
 
-//ここ
 app.get('/weather', (req, res) => {
     const address = req.query.address;
 
@@ -56,32 +55,18 @@ app.get('/weather', (req, res) => {
         if (error) {
             return res.send({ error });
         }
-        forecast(latitude, longitude, (error, forcastData) => {
+        forecast(latitude, longitude, (error, forecastData) => {
             if(error){
                 return res.send({ error });
             }
             res.send({
-                forcast: forcastData,
+                forecast: forecastData,
                 location,
                 address
             })
         })
     })
 })
-
-// app.get('/weather', (req, res) => {
-//     if(!req.query.address){
-//         return res.send({
-//             error: 'You must provide an address!'
-//         })
-//     }
-
-//     res.send({
-//         forcast: 'It is snowing',
-//         location: 'Philadelphia',
-//         address: req.query.address
-//     })
-// })
 
 
 
