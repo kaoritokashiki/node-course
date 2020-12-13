@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const User = require('./user')
 
 const Task = mongoose.model('Task', {
     description: {
@@ -11,5 +12,6 @@ const Task = mongoose.model('Task', {
         default: false,
     }
 })
+
 
 module.exports = Task
