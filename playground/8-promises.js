@@ -1,13 +1,27 @@
-const doWorkPriomise = new Promise((resolve, reject) => {
-    setTimeout(() => {
-        // resolve([7, 4, 1])
-        resolve([2, 3, 2])
-        reject('Things went wrong!')
-    }, 2000)
-})
+const add = (a, b) => {
+    return new Promise((resolve, reject) => {
+        setTimeout(() => {
+            
+            resolve(a + b)
+        }, 2000)
+    })
+}
+// add(1, 2).then((sum) => {
+//     console.log(sum);
 
-doWorkPriomise.then((result) => {
-    console.log('Success', result);
-}).catch((error) => {
-    console.log('Error', error);
+//     add(sum, 5).then((sum2) => {
+//         console.log(sum2);
+//     }).catch(() => {
+//         console.log(e);
+//     })
+// }).catch((e) => {
+//     console.log(e);
+// })
+
+add(1, 99).then((sum) => {
+    return add(sum, 50)
+}).then((sum2) => {
+    console.log(sum2)
+}).catch((e) => {
+    console.log(e);
 })
