@@ -52,7 +52,7 @@ app.get('/users/:id', async (req, res) => {
         const user = await User.findByIdAndDelete({_id})
 
         if(!user){
-            return res.status(404).send()
+            res.status(404).send()
         }
         res.send(user)
     } catch (e) {
