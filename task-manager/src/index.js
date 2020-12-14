@@ -2,6 +2,8 @@ const express = require('express')
 require('./db/mongoose')
 const User = require('./models/user')
 const Task = require('./models/task')
+const { findByIdAndUpdate } = require('./models/user')
+const e = require('express')
 
 const app = express()
 const port = process.env.PORT || 3000
@@ -146,7 +148,39 @@ app.get('/tasks/:id', async(req, res) => {
     // }).catch((e) => {
     //     res.status(500).send(e)
     // })
+
 })
+
+app.patch('/tasks/:id', async(req, res) => {
+    const updates = Object.keys(req.body)
+    const allowedUpdates = ['description', 'completed']
+    inValidOperation = updates.every((update) => allowedUpdates.includes(update))
+
+    if(!inValidOperation){
+        return res.status(400).send({ error: 'Invalid Value'})
+    }
+
+    const _id = req.params.id
+
+    try {
+        task = await Task.findByIdAndUpdate(req.params.id, req.body, {new: true, runValidators: true})
+        if(!task){
+            return res.status(404).send()
+        }
+        res.send(task)
+    } catch (e) {
+        console.log(e)
+        return res.send(e)
+        
+    }
+
+
+
+
+})
+
+
+
 
 app.listen(port, () => {
     console.log('Server is up on port ' + port);
